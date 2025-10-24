@@ -12,33 +12,34 @@ import {
 const MENU = {
   categories: [
     { name: "Seafood Favorites", items: [
-      { id: "snapper_fries", name: "Snapper & Fries", price: 25 },
-      { id: "snapper_only", name: "Snapper Only", price: 22 },
-      { id: "tilapia_fries", name: "Tilapia & Fries", price: 12 },
-      { id: "tilapia_only", name: "Tilapia Only", price: 10 },
+      { id: "snapper_fries",   name: "Snapper & Fries", price: 25, img: "/images/snapper-fries.jpg" },
+      { id: "snapper_only",    name: "Snapper Only",    price: 22, img: "/images/snapper.jpg" },
+      { id: "tilapia_fries",   name: "Tilapia & Fries", price: 12, img: "/images/tilapia-fries.jpg" },
+      { id: "tilapia_only",    name: "Tilapia Only",    price: 10, img: "/images/tilapia.jpg" },
     ]},
     { name: "Wings & Ribs", items: [
-      { id: "wings_fries", name: "Fried Whole Wings & Fries", price: 13 },
-      { id: "wings_5pc", name: "Fried Whole Wings (5 pc)", price: 10 },
-      { id: "rib_sandwich", name: "BBQ Rib Sandwich", price: 13 },
-      { id: "chicken_sandwich", name: "BBQ Chicken Sandwich", price: 11 },
+      { id: "wings_fries",       name: "Fried Whole Wings & Fries", price: 13, img: "/images/wings-fries.jpg" },
+      { id: "wings_5pc",         name: "Fried Whole Wings (5 pc)",  price: 10, img: "/images/wings-5pc.jpg" },
+      { id: "rib_sandwich",      name: "BBQ Rib Sandwich",          price: 13, img: "/images/rib-sandwich.jpg" },
+      { id: "chicken_sandwich",  name: "BBQ Chicken Sandwich",       price: 11, img: "/images/chicken-sandwich.jpg" },
     ]},
     { name: "Sides", items: [
-      { id: "fries", name: "Fries", price: 5 },
-      { id: "corn", name: "Corn", price: 5 },
+      { id: "fries", name: "Fries", price: 5, img: "/images/fries.jpg" },
+      { id: "corn",  name: "Corn",  price: 5, img: "/images/corn.jpg"  },
     ]},
     { name: "Desserts", items: [
-      { id: "pound_cake", name: "Pound Cake", price: 5 },
-      { id: "red_velvet_2", name: "Red Velvet Cupcakes (2)", price: 7 },
-      { id: "cupcake_single", name: "Single Cupcake", price: 4 },
+      { id: "pound_cake",     name: "Pound Cake",               price: 5, img: "/images/pound-cake.jpg" },
+      { id: "red_velvet_2",   name: "Red Velvet Cupcakes (2)",  price: 7, img: "/images/red-velvet.jpg" },
+      { id: "cupcake_single", name: "Single Cupcake",           price: 4, img: "/images/cupcake.jpg" },
     ]},
     { name: "Drinks", items: [
-      { id: "peach_lemonade", name: "Peach Lemonade", price: 4 },
-      { id: "fruit_punch", name: "Fruit Punch", price: 4 },
-      { id: "water", name: "Water", price: 2 },
+      { id: "peach_lemonade", name: "Peach Lemonade", price: 4, img: "/images/peach-lemonade.jpg" },
+      { id: "fruit_punch",    name: "Fruit Punch",    price: 4, img: "/images/fruit-punch.jpg" },
+      { id: "water",          name: "Water",          price: 2, img: "/images/water.jpg" },
     ]},
   ]
 };
+
 
 function buildPickupSlots(start = "12:00", end = "16:00") {
   const [sh, sm] = start.split(":").map(Number);
@@ -194,7 +195,27 @@ export default function App(){
               {cat.items.map(it=> (
                 <div key={it.id} className="card">
                   <div className="content vstack">
-                    <div style={{background:"#f3f3f3", height:140, borderRadius:12, display:"grid", placeItems:"center", color:"#999", fontSize:12}}>Add photo</div>
+                   <img
+  src={it.img}
+  alt={it.name}
+  loading="lazy"
+  onError={(e) => {
+    // fallback to a neutral placeholder if the file is missing
+    (e.currentTarget as HTMLImageElement).src =
+      "data:image/svg+xml;utf8," +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f3f3f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#999" font-family="Arial" font-size="18">Photo coming soon</text></svg>'
+      );
+  }}
+  style={{
+    width: "100%",
+    height: 140,
+    objectFit: "cover",
+    borderRadius: 12,
+    background: "#f3f3f3"
+  }}
+/>
+
                     <div className="hstack" style={{justifyContent:"space-between"}}>
                       <div className="vstack">
                         <strong>{it.name}</strong>
