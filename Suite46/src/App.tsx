@@ -118,8 +118,16 @@ export default function App(){
 
     try {
       if (ORDER_ENDPOINT) {
-        await fetch(ORDER_ENDPOINT, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload) });
-      } else {
+  // Use a "simple" request to avoid CORS preflight (OPTIONS) that Apps Script won’t answer.
+  await fetch(ORDER_ENDPOINT, {
+    method: "POST",
+    // text/plain is a simple content-type → no preflight
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload),
+    // prevent the browser from rejecting due to missing CORS headers
+    mode: "no-cors"
+  });
+} else {
         const local = JSON.parse(localStorage.getItem("s46_local_orders")||"[]");
         local.push(payload); localStorage.setItem("s46_local_orders", JSON.stringify(local));
       }
